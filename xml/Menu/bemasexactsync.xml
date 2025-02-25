@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/testexact</path>
+    <page_callback>CRM_Bemasexactsync_Page_Test</page_callback>
+    <title>Test</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
