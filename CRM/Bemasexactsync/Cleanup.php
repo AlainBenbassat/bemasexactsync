@@ -17,6 +17,35 @@ class CRM_Bemasexactsync_Cleanup {
     }
   }
 
+  public function checkJson() {
+    $contacts = \Civi\Api4\Contact::get(FALSE)
+      ->addSelect('id', 'temp_exact_check.exact_data', 'address_primary.postal_code', 'organization_name')
+      ->addWhere('temp_exact_check.Gevonden', '=', TRUE)
+      ->execute();
+    foreach ($contacts as $contact) {
+      $data = json_decode($contact['temp_exact_check.exact_data'], TRUE);
+
+      if (!empty($data)) {
+        $nameMatches = TRUE;
+        $postCodeMatches = TRUE;
+
+        if ($contact['address_primary.postal_code'] != $data['Postcode']) {
+          $postCodeMatches = FALSE;
+        }
+
+        if (strtolower($contact['organization_name']) != strtolower($data['Naam'])) {
+          $nameMatches = FALSE;
+        }
+
+        \Civi\Api4\Contact::update(TRUE)
+          ->addValue('id', $contact['id'])
+          ->addValue('temp_exact_check.Naam_komt_overeen', $nameMatches)
+          ->addValue('temp_exact_check.Postcode_komt_overeen', $postCodeMatches)
+          ->execute();
+      }
+    }
+  }
+
   private function getExcelSheet(string $inputFileName): \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet {
     $reader = new Xlsx();
     $spreadsheet = $reader->load($inputFileName);
