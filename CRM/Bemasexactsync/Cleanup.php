@@ -37,7 +37,7 @@ class CRM_Bemasexactsync_Cleanup {
           $nameMatches = FALSE;
         }
 
-        \Civi\Api4\Contact::update(TRUE)
+        \Civi\Api4\Contact::update(FALSE)
           ->addValue('id', $contact['id'])
           ->addValue('temp_exact_check.Naam_komt_overeen', $nameMatches)
           ->addValue('temp_exact_check.Postcode_komt_overeen', $postCodeMatches)
