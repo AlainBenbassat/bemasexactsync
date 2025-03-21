@@ -27,8 +27,7 @@ class CRM_Bemasexactsync_Cleanup {
     $row = $this->readRowAsArray($sheet, $i);
     $contactId = $this->getContactByExactId($row['Code']);
     if ($contactId) {
-      //$this->storeExactData($contactId, $row);
-      echo "$contactId gevonden\n";
+      $this->storeExactData($contactId, $row);
     }
   }
 
