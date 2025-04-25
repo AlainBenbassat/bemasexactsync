@@ -5,6 +5,10 @@ class CRM_Bemasexactsync_Form_ImportFromExact extends CRM_Core_Form {
   private $sourceExactId = NULL;
   private $targetContactId = NULL;
 
+  private $exactFields = [
+    'Name', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'City', 'Country', 'Postcode', 'Language', 'Email', 'Phone', 'VATLiability', 'VATNumber', 'PeppolIdentifierType', 'PeppolIdentifier'
+  ];
+
   public function buildQuickForm(): void {
     $this->addFormTitle();
     $this->addFormElements();
@@ -19,6 +23,10 @@ class CRM_Bemasexactsync_Form_ImportFromExact extends CRM_Core_Form {
 
     $exactContact = new CRM_Bemasexactsync_ExactContact($this->getSourceExactId());
     //$civiContact = new CRM_Bemasexactsync_CiviContact($this->getTargetContactId());
+
+    foreach ($this->exactFields as $field) {
+      $defaults["exact_$field"] = $exactContact->$field;
+    }
 
     $defaults['test'] = print_r($exactContact, TRUE);
 
@@ -39,7 +47,10 @@ class CRM_Bemasexactsync_Form_ImportFromExact extends CRM_Core_Form {
     $this->add('hidden', 'exact_id', $this->getSourceExactId());
     $this->add('hidden', 'contact_id', $this->getTargetContactId());
     //$this->add('text', 'title', E::ts('Title'), [], TRUE);
-    $this->add('wysiwyg', 'test', 'Test alain', []);
+    foreach ($this->exactFields as $field) {
+      $this->add('text', "exact_$field", $field, [], FALSE);
+    }
+    $this->add('wysiwyg', 'test', 'Debug', []);
   }
 
   private function getSourceExactId() {
