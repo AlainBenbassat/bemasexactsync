@@ -6,4 +6,10 @@
     <title>Test</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/exact-sync/import</path>
+    <page_callback>CRM_Bemasexactsync_Form_ImportFromExact</page_callback>
+    <title>ImportFromExact</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
 </menu>
