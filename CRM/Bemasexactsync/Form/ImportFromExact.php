@@ -25,10 +25,10 @@ class CRM_Bemasexactsync_Form_ImportFromExact extends CRM_Core_Form {
     //$civiContact = new CRM_Bemasexactsync_CiviContact($this->getTargetContactId());
 
     foreach ($this->exactFields as $field) {
-      $defaults["exact_$field"] = $exactContact->$field;
+      $defaults["exact_$field"] = $exactContact->account->$field;
     }
 
-    $defaults['test'] = print_r($exactContact, TRUE);
+    $defaults['test'] = print_r($exactContact->account, TRUE);
 
     return $defaults;
   }
